@@ -24,6 +24,20 @@ Contracts group jobs within them.
 
 contractor get paid for jobs by clients under a certain contract.
 
+## Application Flow
+
+1. **Authentication**: Users authenticate by including their `profile_id` in the request headers. The `getProfile` middleware retrieves the profile from the cache or database and attaches it to the request object.
+
+2. **Retrieving Contracts**: Clients and contractors can access their respective contracts via the `/contracts` endpoint. Only non-terminated contracts are returned.
+
+3. **Managing Jobs**: 
+   - Unpaid jobs can be retrieved via the `/jobs/unpaid` endpoint, which lists all unpaid jobs for the authenticated user.
+   - Clients can pay for jobs using the `/jobs/:job_id/pay` endpoint. The payment process updates the balances of both the client and the contractor.
+
+4. **Admin Reports**:
+   - The `/admin/best-profession` endpoint provides insights into the most profitable profession within a specified date range.
+   - The `/admin/best-clients` endpoint returns the top clients who paid the most for jobs during a specified period.
+
 ## Getting Set Up
 
 The exercise requires [Node.js](https://nodejs.org/en/) to be installed. We recommend using the LTS version.
@@ -84,6 +98,24 @@ Below is a list of the required API's for the application.
     }
 ]
 ```
+## Improvements for Production-Level Application
+
+To enhance this application for production use, consider the following improvements:
+
+1. **Error Handling**: Implement a centralized error handling middleware to capture and manage errors across the application gracefully.
+
+2. **Logging**: Integrate a logging library (e.g., Winston or Morgan) to log important events and errors, aiding in debugging and monitoring application health.
+
+3. **Database Migration**: Implement migrations for the SQLite database to manage schema changes efficiently. This will help in maintaining the database structure during the deployment process.
+
+4. **Rate Limiting**: Use rate-limiting middleware to protect the APIs from excessive requests, enhancing security and performance.
+
+5. **Performance Optimization**: Evaluate and optimize query performance, particularly for endpoints that may return large datasets. Consider implementing pagination where applicable.
+
+6. **Code Optimization**: The code can be more extendible with custom exceptions and various design patterns like factory pattern can be used to create objects or services. For instance, if you have different types of jobs or contracts with specific logic, a factory can instantiate them etc.
+
+7. **Input validation and proper logging**: Input validation at multiple edge cases can be more optimized with custom logging and exception handling
+
 
 ## Going Above and Beyond the Requirements
 

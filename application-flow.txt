@@ -1,0 +1,62 @@
+
+# DEEL BACKEND TASK - Application Flow and Logic
+
+## Application Flow
+
+1. **Authentication**: 
+   - Users authenticate by including their `profile_id` in the request headers.
+   - The `getProfile` middleware retrieves the profile from the cache or database and attaches it to the request object (`req.profile`).
+
+2. **Retrieving Contracts**: 
+   - Clients and contractors can access their respective contracts via the `/contracts` endpoint.
+   - The API only returns non-terminated contracts for the authenticated user.
+
+3. **Managing Jobs**:
+   - **Retrieving Unpaid Jobs**: Users can access unpaid jobs through the `/jobs/unpaid` endpoint, which filters for unpaid jobs tied to active contracts.
+   - **Paying for Jobs**: Clients pay for jobs via the `/jobs/:job_id/pay` endpoint. The payment process deducts the job amount from the client's balance and transfers it to the contractor's balance.
+
+4. **Admin Reports**:
+   - The `/admin/best-profession` endpoint returns the profession that earned the most money during a specified date range.
+   - The `/admin/best-clients` endpoint retrieves the clients who spent the most on jobs during a given period, with an optional limit on results.
+
+## Folder Structure
+
+The folder structure of the application is organized as follows:
+
+```
+src/
+│
+├── configs/                # Consists of all basic configuration
+│
+├── modules/                # Consists of all primary modules like admin,balances,contracts,jobs
+│
+├── shared/
+│   └── middleware/getProfile.js       # Middleware for user authentication and profile retrieval.
+│
+├── shared/
+│   └── utils/
+│       └── load-json.util.js # Utility for loading JSON files etc.
+│   └── utils/
+│       └── math.util.js # Utility for all the mathematical evaluations
+│
+└── server.js               # Main server file that initializes the Express application.
+```
+
+## Module Descriptions
+
+- **`middleware/getProfile.js`**: 
+  - This middleware authenticates users by checking the `profile_id` in request headers. It retrieves the corresponding user profile and makes it available in the request object for further processing.
+
+- **`model.js`**: 
+  - This module defines the data models for the application using Sequelize. It includes the following models:
+    - **Profile**: Represents either a client or contractor with associated properties, including balance.
+    - **Contract**: Defines contracts between clients and contractors, including statuses (new, in_progress, terminated).
+    - **Job**: Represents jobs that contractors perform for clients under specific contracts.
+    - **Balances**: Represents transactions flow
+
+- **`shared/utils/load-json.util.js`**: 
+  - This utility function loads and parses a JSON file from a given path. It handles errors in file reading and JSON parsing, logging success or failure messages.
+
+- **`server.js`**: 
+  - The main entry point for the application. It sets up the Express server, initializes middleware, and defines routes for the API endpoints.
+
