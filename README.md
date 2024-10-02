@@ -96,14 +96,3 @@ It would be great for example if you'd write some unit test / simple frontend de
 When you have finished the assignment, zip your repo (make sure to include .git folder) and send us the zip.
 
 Thank you and good luck! 🙏
-
-## IMPROVEMENTS
-
-- Add typescript;
-- Change the sqlite to a postgreSQL database;
-- Create repositories to manipulate the database directly;
-- Deploy on a cloud provider;
-- Add a error-tracking platform like Sentry, to receive the application reports;
-- Change the node cache (in memory cache) to a redis for example;
-- Add a endpoint to allow users creation;
-- Add a JWT validation;
